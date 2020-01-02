@@ -2,6 +2,7 @@
 
 # Here's a bunch of BASH functions I'd like to always have handy
 
+# Report the public IP address of an EC2 instance given it's Name as an argument
 function zf_ec2_pub_ip {
   aws ec2 describe-instances --filters "Name=tag:Name,Values=${1}" --query "Reservations[*].Instances[*].PublicIpAddress" --output text
 }
