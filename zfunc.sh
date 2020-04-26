@@ -3,19 +3,37 @@
 # Here's a bunch of BASH functions I'd like to always have handy
 
 # Report the public IP address of an EC2 instance given it's Name as an argument
-function zf_ec2_pub_ip {
+function z-ec2-ip {
   aws ec2 describe-instances --filters "Name=tag:Name,Values=${1}" --query "Reservations[*].Instances[*].PublicIpAddress" --output text
 }
 
 # SSH to a StackHawk EC2 instance by name as user ubuntu and with the shhawk1.pem key
-function zf_sshawk {
-  ssh -i ~/.ssh/sshawk1.pem ubuntu@$(zf_ec2_pub_ip "${1}")
+function z-sshawk {
+  ssh -i ~/.ssh/sshawk1.pem ubuntu@$(z-ec2-ip "${1}")
 }
 
-function zf_dns_flush {
+function z-dns-flush {
   dscacheutil -flushcache
   sudo killall -HUP mDNSResponder
 }
+
+function z-g-pull {
+  git checkout master ; git pull
+  git checkout sandbox ; git pull
+  git checkout develop ; git pull
+}
+
+# z-pr <base-branch>
+function z-pr {
+  base="${1}"
+  if ! "$base" ; then
+    return 1
+  else
+    gh pr create --base "${base}" --web
+  fi
+}
+
+
 
 
 ### Main script
@@ -29,3 +47,4 @@ if [[ -n $1 ]]; then
     exit 1
   fi
 fi
+
