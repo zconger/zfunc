@@ -1,4 +1,4 @@
-#!/usr/bin/env bash
+#!/usr/bin/env zsh
 
 # Here's a bunch of BASH functions I'd like to always have handy
 
@@ -33,10 +33,23 @@ function z-pr {
   fi
 }
 
-#function z-upgrade {
-#
-#}
+function z-upgrade {
+  if [[ -z "${ZFUNC}" ]]; then
+    ZFUNC="~/bin/zfunc.sh"
+  fi
 
+  if ! curl --header "Authorization: token ${GITHUB_PAT}" \
+     --header "Accept: application/vnd.github.v3.raw" \
+     --remote-name \
+     --location https://api.github.com/repos/zconger/zfunc/contents/zfunc.sh \
+     --output "${ZFUNC}";
+  then
+    return 1
+  fi
+
+  chmod 755 "${ZFUNC}"
+  . "${ZFUNC}"
+}
 
 ### Main script
 # Check to see if zfunc.sh was executed with an argument, and if so, try running it as a function
