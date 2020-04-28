@@ -44,7 +44,7 @@ function z-upgrade {
      --location https://api.github.com/repos/zconger/zfunc/contents/zfunc.sh \
      --output "${ZFUNC}";
   then
-    echo "Failed to download zfunc.sh"
+    echo "Failed to download zfunc.sh" >&2
     return 1
   fi
 
