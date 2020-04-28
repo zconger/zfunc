@@ -35,7 +35,7 @@ function z-pr {
 
 function z-upgrade {
   if [[ -z "${ZFUNC}" ]]; then
-    ZFUNC="~/bin/zfunc.sh"
+    ZFUNC="${HOME}/bin/zfunc.sh"
   fi
 
   if ! curl --header "Authorization: token ${GITHUB_PAT}" \
