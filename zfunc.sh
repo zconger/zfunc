@@ -40,7 +40,6 @@ function z-upgrade {
 
   if ! curl --header "Authorization: token ${GITHUB_PAT}" \
      --header "Accept: application/vnd.github.v3.raw" \
-     --remote-name \
      --location https://api.github.com/repos/zconger/zfunc/contents/zfunc.sh \
      --output "${ZFUNC}";
   then
