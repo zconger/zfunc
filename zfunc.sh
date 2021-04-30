@@ -26,7 +26,7 @@ function z-g-pull {
 # z-pr <base-branch>
 function z-pr {
   base="${1}"
-  if ! "$base" ; then
+  if [[ -z "${base}" ]] ; then
     return 1
   else
     gh pr create --base "${base}" --web
@@ -49,6 +49,20 @@ function z-upgrade {
 
   chmod 755 "${ZFUNC}"
   . "${ZFUNC}"
+}
+
+function z-brew-switch {
+  #! /usr/bin/env bash
+  set -euo pipefail
+  pkg=$1
+  version=$2
+  brew unlink "$pkg"
+  (
+    pushd "$(brew --prefix)/opt"
+    rm -f "$pkg"
+    ln -s "../Cellar/$pkg/$version" "$pkg"
+  )
+  brew link "$pkg"
 }
 
 ### Main script
