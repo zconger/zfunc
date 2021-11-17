@@ -66,6 +66,10 @@ function z-brew-switch {
 }
 
 function z-pod-destroy {
+  if [[ -z $2 ]]; then
+    >&2 echo "Usage: $0 <PODNAME> <NAMESPACE>"
+    return 1
+  fi
   podname=$1
   namespace=$2
   kubectl delete pod "${podname}" --grace-period=0 --force --namespace "${namespace}"
