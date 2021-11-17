@@ -53,7 +53,7 @@ function z-upgrade {
 
 function z-brew-switch {
   #! /usr/bin/env bash
-  set -euo pipefail
+  set -ex
   pkg=$1
   version=$2
   brew unlink "$pkg"
@@ -63,6 +63,12 @@ function z-brew-switch {
     ln -s "../Cellar/$pkg/$version" "$pkg"
   )
   brew link "$pkg"
+}
+
+function z-pod-destroy {
+  podname=$1
+  namespace=$2
+  kubectl delete pod "${podname}" --grace-period=0 --force --namespace "${namespace}"
 }
 
 ### Main script
